@@ -1,33 +1,39 @@
 # post-flow
 
-多平台自动发帖工具：支持**小红书**、**抖音**等创作者中心，基于 Playwright 持久化浏览器 + 拟人操作。
+**[简体中文](docs/README.zh-CN.md)**
 
-## 自动化原理
+📹 **Demo:** Xiaohongshu & Douyin posting demos — search Douyin for **mumuhou001**.
 
-先**录制脚本**（在浏览器里操作一遍，工具记录点击、输入、上传等步骤），发帖时**执行脚本**即可自动完成发布。要增加支持的平台或发帖类型时，只需先录制对应脚本（建议用 AI 辅助录制以生成稳定 selector 与描述）；录制完成后，日常发布**运行时无需再消耗 token**。
+Multi-platform auto-posting: **Xiaohongshu** (小红书), **Douyin** (抖音), and more creator centers, powered by Playwright with a persistent browser and human-like actions.
 
-## 功能
+## How it works
 
-### 平台与内容类型支持
+**Record a script** first (perform the publish flow once in the browser; the tool records clicks, typing, file uploads, etc.). When posting, **run the script** to automate the flow. To support a new platform or post type, record a new script (AI-assisted recording is recommended for stable selectors and step descriptions). After that, **runtime does not consume any tokens.**
+
+## Features
+
+### Platform & content type support
 
 <table>
-<thead><tr><th>平台</th><th>内容类型</th></tr></thead>
+<thead><tr><th>Platform</th><th>Content type</th></tr></thead>
 <tbody>
-<tr><td rowspan="3">小红书</td><td>长文字 ✅</td></tr>
-<tr><td>图文 ✅</td></tr>
-<tr><td>视频 ❌</td></tr>
-<tr><td rowspan="3">抖音</td><td>视频 ✅</td></tr>
-<tr><td>图文 ❌</td></tr>
-<tr><td>文章 ❌</td></tr>
+<tr><td rowspan="3">Xiaohongshu</td><td>Long-form text ✅</td></tr>
+<tr><td>Image + text ✅</td></tr>
+<tr><td>Video ❌</td></tr>
+<tr><td rowspan="3">Douyin</td><td>Video ✅</td></tr>
+<tr><td>Image + text ❌</td></tr>
+<tr><td>Article ❌</td></tr>
 </tbody>
 </table>
 
-- **持久化浏览器**：使用 `userDataDir` 保存登录态，首次需人工登录，之后自动带 cookie
-- **登录检查**：打开发布页后检测是否已登录，未登录则等待用户在浏览器内手动登录
-- **发布流程**：按录制脚本执行（填标题、正文、上传图片/视频、点击发布等）
-- **防风控**：非 headless、随机延迟、逐字打字、随机鼠标移动，语义化 selector
+### General capabilities
 
-## 安装
+- **Persistent browser**: Uses `userDataDir` for login state; sign in once in the browser, then reuse cookies automatically.
+- **Login check**: After opening the publish page, detects login status and waits for manual login if needed.
+- **Publish flow**: Runs recorded steps (title, body, upload images/video, click publish, etc.).
+- **Anti-detection**: Non-headless, random delays, character-by-character typing, random mouse movement, semantic selectors.
+
+## Install
 
 ```bash
 cd post-flow
@@ -35,49 +41,49 @@ pnpm install
 npx playwright install chromium
 ```
 
-## 使用
+## Usage
 
-先构建一次：`npm run build`（或 `pnpm build`）。之后可直接用 **`post-flow`** 命令（无需再写 `npm run xxx`）：
+Build once: `npm run build` (or `pnpm build`). Then use the **`post-flow`** CLI:
 
 ```bash
-# 方式一：在项目目录下用 npx（无需全局安装）
-npx post-flow xiaohongshu login    # 小红书首次登录
-npx post-flow douyin login        # 抖音首次登录
-npx post-flow publish             # 发布（默认 ~/.post-flow/post.json，按 post 内 platform 选平台）
+# Option 1: npx from project directory (no global install)
+npx post-flow xiaohongshu login    # Xiaohongshu first-time login
+npx post-flow douyin login         # Douyin first-time login
+npx post-flow publish              # Publish (default ~/.post-flow/post.json; platform from post file)
 npx post-flow publish /path/to/post.json
 
-# 方式二：链接到全局后，任意目录都可直接用 post-flow
+# Option 2: link globally, then use post-flow from anywhere
 npm run build && npm link
 post-flow xiaohongshu login
 post-flow douyin login
 post-flow publish
 ```
 
-仍可使用 npm 脚本（会调用同一 CLI）：
-- `npm run login` → 等同于 `post-flow xiaohongshu login`
-- `npm run publish` → 等同于 `post-flow publish`
-- `npm run post-flow -- <参数...>` → 任意子命令，如 `npm run post-flow -- douyin replay ./recorded-scripts/douyin-video.json`
+You can also use npm scripts (same CLI):
+- `npm run login` → same as `post-flow xiaohongshu login`
+- `npm run publish` → same as `post-flow publish`
+- `npm run post-flow -- <args>` → e.g. `npm run post-flow -- douyin replay ./recorded-scripts/douyin-video.json`
 
-## 配置
+## Config
 
-### 两种启动方式
+### Two launch modes
 
-1. **由 Playwright 启动浏览器**  
-   不配置 `cdpEndpoint` 时，会使用 `launchPersistentContext` 启动 Chrome，数据目录为 `userDataDir/<platform>-browser-data`。
-
-2. **Attach：连接已打开的 Chrome（更不易被检测,推荐）**  
-   在 `~/.post-flow/app.json` 中设置 `cdpEndpoint`，例如：
+1. **Attach to existing Chrome (recommended, default; less detectable)**  
+   This is the default when `cdpEndpoint` is not overridden (default address `http://127.0.0.1:9222`). You can set it explicitly in `~/.post-flow/app.json`:
    ```json
    "cdpEndpoint": "http://127.0.0.1:9222"
    ```
-   先手动用调试端口启动 Chrome（使用与配置一致的 userDataDir）：
+   Start Chrome with remote debugging (use a userDataDir consistent with your config):
    ```bash
    # macOS
    /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
      --remote-debugging-port=9222 \
      --user-data-dir="$HOME/.post-flow/browser-data"
 
-   # windows
+   # Windows
    chrome.exe --remote-debugging-port=9222 --user-data-dir=C:\chrome-profile
    ```
-   再运行 `post-flow xiaohongshu login`、`post-flow douyin login` 或 `post-flow publish ...`。若已有标签页打开对应平台发布页，会自动复用该标签，不会新建。
+   Then run `post-flow xiaohongshu login`, `post-flow douyin login`, or `post-flow publish ...`. If a tab with the platform's publish page is already open, it will be reused.
+
+2. **Launch browser via Playwright**  
+   Set `cdpEndpoint` to an empty string `""` in `~/.post-flow/app.json` to use `launchPersistentContext` instead; data directory will be `userDataDir/<platform>-browser-data`.
