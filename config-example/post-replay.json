@@ -1,0 +1,9 @@
+{
+  "platform": "xiaohongshu",
+  "script_id": "long_text",
+  "title": "回放用标题",
+  "content": "",
+  "content_path": "/path/to/content.md",
+  "image_paths": [],
+  "video_path": ""
+}

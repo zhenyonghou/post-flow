@@ -1,0 +1,16 @@
+{
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "cdpEndpoint": "http://127.0.0.1:9222",
+  "browserHuman": {
+    "delayRange": { "min": 1800, "max": 2800 },
+    "typingDelayRange": { "min": 80, "max": 180 }
+  },
+  "modelProvider": {
+    "baseUrl": "https://api.example.com/v1",
+    "apiKey": "your-api-key",
+    "model": "gpt-4"
+  }
+}

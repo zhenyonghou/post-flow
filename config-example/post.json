@@ -1,0 +1,9 @@
+{
+  "platform": "xiaohongshu",
+  "script_id": "long_text",
+  "title": "你的笔记标题",
+  "content": "",
+  "content_path": "/path/to/your/content.md",
+  "image_paths": [],
+  "video_path": ""
+}

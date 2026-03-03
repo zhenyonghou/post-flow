@@ -1,0 +1,63 @@
+{
+  "id": "default",
+  "steps": [
+    {
+      "kind": "click",
+      "selector": ".header-tabs .creator-tab:has-text(\"写长文\")",
+      "desc": "发布页创作服务平台，点击“写长文”标签"
+    },
+    {
+      "kind": "click",
+      "selector": "role=button[name=\"新的创作\"]",
+      "desc": "创作服务平台长文发布页，点击“新的创作”按钮"
+    },
+    {
+      "kind": "type",
+      "selector": ".rich-editor-title textarea[placeholder=\"输入标题\"]",
+      "value": "title",
+      "desc": "笔记编辑页，在标题输入框中输入内容"
+    },
+    {
+      "kind": "type",
+      "selector": ".rich-editor-content p[data-placeholder=\"粘贴到这里或输入文字\"]",
+      "value": "content",
+      "desc": "创作服务平台的新建笔记编辑页，在正文编辑区输入内容"
+    },
+    {
+      "kind": "click",
+      "selector": "button.next-btn:has-text(\"一键排版\")",
+      "desc": "创作服务平台的笔记编辑页，点击“一键排版”按钮"
+    },
+    {
+      "kind": "wait",
+      "selector": "",
+      "value": "6000",
+      "desc": "一键排版后等待 6 秒"
+    },
+    {
+      "kind": "click",
+      "selector": ".template-card:has(.template-title:has-text(\"轻感明快\"))",
+      "desc": "发布页模板选择弹窗中，点击“轻感明快”模板的封面图"
+    },
+    {
+      "kind": "click",
+      "selector": ".template-card:has(.template-title:has-text(\"轻感明快\")) span.color-item[style*=\"FFFFAA\"]",
+      "desc": "轻感明快模板下，选择颜色 #FFFFAA"
+    },
+    {
+      "kind": "click",
+      "selector": ".template-card:has(.template-title:has-text(\"灵感备忘\"))",
+      "desc": "发布页模板选择弹窗中，点击“灵感备忘”模板的封面图"
+    },
+    {
+      "kind": "click",
+      "selector": "button.submit:has-text(\"下一步\")",
+      "desc": "在模板编辑预览页面点击“下一步”按钮"
+    },
+    {
+      "kind": "click",
+      "selector": ".publish-page-publish-btn button.bg-red",
+      "desc": "创作服务平台笔记发布页中，点击“发布”按钮提交笔记"
+    }
+  ]
+}
