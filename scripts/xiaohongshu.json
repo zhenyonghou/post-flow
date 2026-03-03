@@ -1,5 +1,6 @@
 {
   "publishUrl": "https://creator.xiaohongshu.com/publish/publish",
+  "loggedInSelector": "[data-e2e='user-avatar'], .avatar, [class*='avatar']",
   "scripts": [
     {
       "id": "video",

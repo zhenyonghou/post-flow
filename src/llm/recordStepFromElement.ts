@@ -40,8 +40,9 @@ export async function recordStepFromElement(
   - 选择器要简单、稳定——避免过于具体的路径，以免页面 HTML 小调整导致重放失败。
   - data-pf 是临时标记，标记了用户点击的元素，可辅助判断目标；禁止在输出的 selector 中使用 data-pf，该属性仅在当前快照中存在，执行 selector 时已不存在。
   - 禁止：不要使用无意义的深层路径（如 div > div > div 或 div > div:nth-child(3) > span），结构小改就会失效。
-  - 鼓励：用父路径上有语义的节点收窄范围，例如 .header、.upload-wrap、[class*="upload"]、section:has-text("标题")，而不是一串 div。
+  - 鼓励：用父路径上有语义的节点收窄范围，例如 .header、.upload-wrap、[class*="upload"]、section:has-text("标题")，而不是一串 div。针对「名-hash」型 class 的页面，用 [class*="稳定前缀"] 配合 :has-text("按钮或标题文案")，例如可点击卡片： [class*="icon-video"]:has([class*="title-"]:has-text("发布视频"))。
   - 禁止：不要使用临时状态类名（.active、.selected、.open、.focus），这些会随用户操作改变。
+  - 禁止：不要使用带编译 hash 的 class 名（如 .container-I46hmx、.title-XV1iWc、.btn-OkpBsP）。横线后的后缀是构建时生成的，每次发布可能变化，重放会失败。若要用 class，只使用稳定前缀，写成 [class*="前缀"]（例如 [class*="icon-video"]、[class*="title-"]），并优先配合 :has-text("可见文案") 定位。
   - 禁止：不要使用 :visible，Playwright 不支持。
   - 禁止：除非别无他法，否则不要使用 nth-child/nth-of-type，优先用语义化属性或父级语义节点。
   - 优先（最稳定）：[id="..."]、[data-testid="..."]、[data-e2e="..."]、[aria-label="..."]、role=button[name="..."]、[placeholder="..."]。
@@ -59,6 +60,7 @@ ${descriptorJson}
 ${htmlForLlm}
 \`\`\``;
 
+  logger.info("正在调用LLM, 请等待...")
   try {
     const client = new LlmClient({
       apiKey: modelProvider.apiKey,

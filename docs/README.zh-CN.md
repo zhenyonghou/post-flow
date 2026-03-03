@@ -1,5 +1,7 @@
 # post-flow
 
+**[English](../README.md)**
+
 多平台自动发帖工具：支持**小红书**、**抖音**等创作者中心，基于 Playwright 持久化浏览器 + 拟人操作。
 
 ## 自动化原理
@@ -21,6 +23,8 @@
 <tr><td>文章 ❌</td></tr>
 </tbody>
 </table>
+
+### 通用能力
 
 - **持久化浏览器**：使用 `userDataDir` 保存登录态，首次需人工登录，之后自动带 cookie
 - **登录检查**：打开发布页后检测是否已登录，未登录则等待用户在浏览器内手动登录
@@ -62,11 +66,8 @@ post-flow publish
 
 ### 两种启动方式
 
-1. **由 Playwright 启动浏览器**  
-   不配置 `cdpEndpoint` 时，会使用 `launchPersistentContext` 启动 Chrome，数据目录为 `userDataDir/<platform>-browser-data`。
-
-2. **Attach：连接已打开的 Chrome（更不易被检测,推荐）**  
-   在 `~/.post-flow/app.json` 中设置 `cdpEndpoint`，例如：
+1. **Attach：连接已打开的 Chrome（推荐，默认且更不易被检测）**  
+   不配置 `cdpEndpoint` 时默认即使用此方式（默认地址 `http://127.0.0.1:9222`）。也可在 `~/.post-flow/app.json` 中显式设置，例如：
    ```json
    "cdpEndpoint": "http://127.0.0.1:9222"
    ```
@@ -81,3 +82,6 @@ post-flow publish
    chrome.exe --remote-debugging-port=9222 --user-data-dir=C:\chrome-profile
    ```
    再运行 `post-flow xiaohongshu login`、`post-flow douyin login` 或 `post-flow publish ...`。若已有标签页打开对应平台发布页，会自动复用该标签，不会新建。
+
+2. **由 Playwright 启动浏览器**  
+   在 `~/.post-flow/app.json` 中将 `cdpEndpoint` 设为空字符串 `""` 时，改为使用 `launchPersistentContext` 启动 Chrome，数据目录为 `userDataDir/<platform>-browser-data`。

@@ -68,12 +68,15 @@ export interface AppConfig {
 /** Platform-specific config (from scripts/<platform>.json). */
 export interface PlatformConfig {
   publishUrl: string;
+  /** Optional. Selector to detect logged-in state (e.g. user avatar). Fallback used if omitted. */
+  loggedInSelector?: string;
   scripts?: Array<{ id: string; title?: string; steps: unknown[] }>;
 }
 
 /** Merged config used by BrowserService (app + platform). */
 export interface PostFlowConfig extends AppConfig {
   publishUrl: string;
+  loggedInSelector?: string;
 }
 
 export function ensureUserDataDir(userDataDir: string): void {
@@ -133,8 +136,13 @@ export function loadPlatformConfig(platform: string): PlatformConfig {
   if (typeof publishUrl !== "string") {
     throw new Error(`Platform config must have publishUrl: ${p}`);
   }
+  const loggedInSelector =
+    typeof data.loggedInSelector === "string" && data.loggedInSelector.trim()
+      ? data.loggedInSelector.trim()
+      : undefined;
   return {
     publishUrl,
+    loggedInSelector,
     scripts: Array.isArray(data.scripts) ? (data.scripts as PlatformConfig["scripts"]) : undefined,
   };
 }
@@ -148,6 +156,7 @@ export function loadConfig(platform: string): PostFlowConfig {
     ...app,
     userDataDir: path.join(baseDir, platform + "-browser-data"),
     publishUrl: platformConfig.publishUrl,
+    loggedInSelector: platformConfig.loggedInSelector,
   };
 }
 

@@ -18,7 +18,7 @@ async function main(): Promise<void> {
   }
 
   if (cmd !== "help" && cmd !== "publish" && cmd !== "delete-browser-data" && !platform) {
-    logger.error("Platform required. Example: post-flow xiaohongshu login");
+    logger.error("Platform required. Example: post-flow xiaohongshu login | post-flow douyin login");
     process.exit(1);
   }
 
@@ -30,7 +30,7 @@ async function main(): Promise<void> {
       logger.info("  post-flow <platform> login | record [scriptPath] | replay <scriptPath> [scriptId]");
       logger.info("  post-flow publish <post.json>");
       logger.info("  post-flow delete-browser-data <platform>");
-      logger.info("  platform: e.g. xiaohongshu (config from scripts/<platform>.json)");
+      logger.info("  platform: e.g. xiaohongshu, douyin (config from scripts/<platform>.json)");
       logger.info("  record: scriptPath optional; if provided and script has steps, append mode (type 'start' to begin), else auto-start");
       return;
     }

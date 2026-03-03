@@ -2,12 +2,9 @@ import type { Page } from "playwright";
 import type { BrowserService } from "../browser/BrowserService.js";
 import { logger } from "../logger.js";
 
-/** Selectors for Xiaohongshu creator center (semantic / role where possible). */
-const SELECTORS = {
-  loggedIn: "[data-e2e='user-avatar'], .avatar, [class*='avatar']",
-  loginButton: "text=登录",
-  loginForm: "form, [role='form']",
-} as const;
+/** Default logged-in selector when platform does not set loggedInSelector (Xiaohongshu-style). */
+const DEFAULT_LOGGED_IN_SELECTOR =
+  "[data-e2e='user-avatar'], .avatar, [class*='avatar']";
 
 /**
  * Handles login state check and first-time manual login.
@@ -36,9 +33,14 @@ export class AuthService {
     return page;
   }
 
+  private getLoggedInSelector(): string {
+    return this.browser.getConfig().loggedInSelector ?? DEFAULT_LOGGED_IN_SELECTOR;
+  }
+
   private async checkLoggedIn(page: Page): Promise<boolean> {
+    const selector = this.getLoggedInSelector();
     try {
-      await page.locator(SELECTORS.loggedIn).first().waitFor({ state: "visible", timeout: 5000 });
+      await page.locator(selector).first().waitFor({ state: "visible", timeout: 5000 });
       return true;
     } catch {
       return false;
@@ -46,7 +48,8 @@ export class AuthService {
   }
 
   private async waitForManualLogin(page: Page): Promise<void> {
-    await page.locator(SELECTORS.loggedIn).first().waitFor({ state: "visible", timeout: 300_000 });
+    const selector = this.getLoggedInSelector();
+    await page.locator(selector).first().waitFor({ state: "visible", timeout: 300_000 });
     logger.info("Login detected. Continuing.");
     await this.browser.getHuman().randomDelay();
   }

@@ -47,12 +47,13 @@ export async function loadPostFromFile(postPath: string): Promise<ResolvedPost> 
   };
 }
 
-/** Resolve step value: {{title}}, {{content}}, {{image_paths}} from post. */
+/** Resolve step value: {{title}}, {{content}}, {{image_paths}}, {{video_path}} from post. */
 export function resolveStepValue(value: string | undefined, post: ResolvedPost): string {
   if (value == null || value === "") return "";
   const imagePathsStr = post.imagePaths.join(",");
   return value
     .replace(/\{\{title\}\}/g, post.title)
     .replace(/\{\{content\}\}/g, post.content)
-    .replace(/\{\{image_paths\}\}/g, imagePathsStr);
+    .replace(/\{\{image_paths\}\}/g, imagePathsStr)
+    .replace(/\{\{video_path\}\}/g, post.videoPath);
 }

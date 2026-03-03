@@ -1,6 +1,6 @@
 /** Single recorded action (click, type, file, wait, or branch choice). */
 export type RecordedStep = {
-  kind: "click" | "type" | "file" | "wait" | "branch";
+  kind: "click" | "type" | "file" | "wait" | "waitFor" | "branch";
   /** Playwright selector (e.g. CSS or text); for branch, script id. */
   selector: string;
   /** When selector matches multiple elements, which one to use (1-based, CSS-style: 1 = first, 2 = second). If 9999, edit script JSON after recording. */

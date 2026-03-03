@@ -49,7 +49,7 @@ export function createFileChooserState(): FileChooserState {
       return Promise.race([
         promise,
         new Promise<void>((_, rej) =>
-          setTimeout(() => rej(new Error("filechooser did not fire within 10s")), 10000)
+          setTimeout(() => rej(new Error("filechooser did not fire within 30s")), 30000)
         ),
       ]);
     },
@@ -151,7 +151,7 @@ export async function runStep(
           : page.locator(step.selector).first();
       await fileLoc.waitFor({ state: "attached", timeout: 10000 });
       fileChooser.setFilePaths(paths);
-      await fileLoc.evaluate((el: HTMLInputElement) => el.click());
+      await clickSelector(page, step.selector, context, { timeoutMs: 10000, nth: step.nth });
       await fileChooser.waitForFileChooserDone();
       logger.info("Step file:", paths.length, paths);
       break;
@@ -176,6 +176,13 @@ export async function runStep(
       const ms = step.value ? parseInt(step.value, 10) : 1000;
       if (Number.isFinite(ms) && ms > 0) await new Promise((r) => setTimeout(r, ms));
       logger.info("Step wait:", ms, "ms");
+      break;
+    }
+    case "waitFor": {
+      const timeoutMs = step.value ? parseInt(step.value, 10) : 30000;
+      const t = Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : 30000;
+      await page.locator(step.selector).first().waitFor({ state: "visible", timeout: t });
+      logger.info("Step waitFor:", step.selector, t, "ms");
       break;
     }
     case "branch":

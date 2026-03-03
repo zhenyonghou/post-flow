@@ -1,7 +1,7 @@
 {
   "name": "post-flow",
   "version": "0.1.0",
-  "description": "Auto-publish articles to Xiaohongshu with Playwright (persistent browser, human-like behavior)",
+  "description": "Multi-platform auto-publish: Xiaohongshu, Douyin, etc. (Playwright, persistent browser, human-like behavior)",
   "type": "module",
   "main": "dist/index.js",
   "bin": {

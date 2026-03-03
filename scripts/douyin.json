@@ -1,0 +1,40 @@
+{
+  "publishUrl": "https://creator.douyin.com/creator-micro/home",
+  "loggedInSelector": "#header-avatar",
+  "scripts": [
+    {
+      "id": "video",
+      "title": "发视频",
+      "steps": [
+        {
+          "kind": "click",
+          "selector": "[class*=\"btn-\"]:has([class*=\"icon-video\"]):has([class*=\"title-\"]:has-text(\"发布视频\"))",
+          "desc": "在创作者中心首页的「新的创作」区域点击“发布视频”卡片"
+        },
+        {
+          "kind": "file",
+          "selector": "[class*=\"container-drag\"] button.semi-button:has(span:has-text(\"上传视频\"))",
+          "value": "{{video_path}}",
+          "desc": "点击上传区域“上传视频”按钮并选择视频文件"
+        },
+        {
+          "kind": "type",
+          "selector": "input.semi-input[placeholder*=\"填写作品标题\"]",
+          "value": "{{title}}",
+          "desc": "填写作品标题"
+        },
+        {
+          "kind": "type",
+          "selector": "[contenteditable=\"true\"][data-placeholder=\"添加作品简介\"]",
+          "value": "{{content}}",
+          "desc": "添加作品简介"
+        },
+        {
+          "kind": "click",
+          "selector": "#popover-tip-container button:has-text(\"发布\")",
+          "desc": "点击发布按钮"
+        }
+      ]
+    }
+  ]
+}

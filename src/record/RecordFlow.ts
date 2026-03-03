@@ -145,7 +145,7 @@ export class RecordFlow {
           continue;
         }
 
-        logger.info("[record] 正在处理点击（可能调用 LLM），请稍候…");
+        logger.info("[record] 正在处理点击");
         const outcome = await recorder.handle(result.item.descriptor, result.item.snapshot, io);
         if (outcome === "save") {
           saved = true;
@@ -157,7 +157,7 @@ export class RecordFlow {
         if (!exitLoop) {
           while (this.clickQueue.length > 0) {
             const next = this.clickQueue.shift()!;
-            logger.info("[record] 正在处理点击（可能调用 LLM），请稍候…");
+            logger.info("[record] 正在处理点击");
             const nextOutcome = await recorder.handle(next.descriptor, next.snapshot, io);
             if (nextOutcome === "save") {
               saved = true;

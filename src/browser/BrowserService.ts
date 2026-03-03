@@ -102,6 +102,7 @@ export class BrowserService {
       try {
         if (this.isSamePublishPage(p.url(), publishUrl)) {
           logger.info("Reusing existing tab on publish page:", p.url());
+          await p.bringToFront();
           return p;
         }
       } catch {
