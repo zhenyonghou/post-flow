@@ -102,7 +102,9 @@ export async function clickSelector(
     return;
   }
   const count = await loc.count();
-  if (count > 1) {
+  if (count === 0) {
+    logger.error("通过selector未匹配到任何元素", selector);
+  } else if (count > 1) {
     logger.warn("通过selector查询到的元素非唯一", selector, count);
   }
   let lastErr: Error | null = null;
@@ -112,10 +114,10 @@ export async function clickSelector(
       return;
     } catch (e) {
       lastErr = e instanceof Error ? e : new Error(String(e));
+      logger.error("点击元素失败", selector, "nth:", i + 1, lastErr.message);
       continue;
     }
   }
-  throw lastErr ?? new Error(`No clickable match for selector: ${selector}`);
 }
 
 /**

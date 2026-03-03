@@ -40,6 +40,12 @@
           "desc": "创作服务平台的笔记发布页，在正文编辑框输入内容"
         },
         {
+          "kind": "wait",
+          "selector": "",
+          "value": "1000",
+          "desc": "点发布前等待 1 秒"
+        },
+        {
           "kind": "click",
           "selector": ".publish-page-publish-btn button:has-text(\"发布\")",
           "desc": "创作服务平台的笔记发布页，点击“发布”按钮"
@@ -102,6 +108,12 @@
           "kind": "click",
           "selector": "button.submit:has-text(\"下一步\")",
           "desc": "在模板编辑预览页面点击“下一步”按钮"
+        },
+        {
+          "kind": "wait",
+          "selector": "",
+          "value": "1000",
+          "desc": "点发布前等待 1 秒"
         },
         {
           "kind": "click",
