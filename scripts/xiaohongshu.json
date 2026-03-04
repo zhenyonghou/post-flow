@@ -91,18 +91,13 @@
         },
         {
           "kind": "click",
-          "selector": ".template-card:has(.template-title:has-text(\"轻感明快\"))",
-          "desc": "发布页模板选择弹窗中，点击“轻感明快”模板的封面图"
-        },
-        {
-          "kind": "click",
-          "selector": ".template-card:has(.template-title:has-text(\"轻感明快\")) span.color-item[style*=\"FFFFAA\"]",
-          "desc": "轻感明快模板下，选择颜色 #FFFFAA"
-        },
-        {
-          "kind": "click",
           "selector": ".template-card:has(.template-title:has-text(\"灵感备忘\"))",
           "desc": "发布页模板选择弹窗中，点击“灵感备忘”模板的封面图"
+        },
+        {
+          "kind": "click",
+          "selector": ".template-card:has(.template-title:has-text(\"灵感备忘\")) span.color-item[style*=\"F4F4F4\"]",
+          "desc": "灵感备忘模板下，选择颜色 #F4F4F4"
         },
         {
           "kind": "click",
